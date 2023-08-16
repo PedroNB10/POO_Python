@@ -13,3 +13,4 @@ else:
     aliquota = 0
 
 print("a aliquota da renda {} é de {}".format(renda,aliquota))
+
