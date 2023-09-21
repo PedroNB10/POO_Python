@@ -61,7 +61,9 @@ class Carro(Veiculo):
         super().mostraArtibutos()
         print(f"""Porta malas {"aberto "if self.estado_porta_malas else "fechado" } \n""")
 
-        
+
+
+    
 
         
 
