@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+import random
 class Artista():
     def __init__(self,nome):
         self.__nome = nome
@@ -105,28 +105,69 @@ class Playlist:
     
  
 if __name__ == "__main__":
+    
     lista_albuns = []
+    
     art1 = Artista("Coldplay")
     album1 = Album('Mylo Xyloto', art1, 2011)
     album1.adicionarFaixa("Paradise")
     album1.adicionarFaixa("Hurts like Heaven")
     album1.adicionarFaixa("Charlie Brown")
-    lista_albuns.append(album1)
-    print(art1.nome)
     
-    print(album1.titulo) 
-    for musica in album1.faixas:
-        print(musica.titulo)
+    album2 = Album('Ghost Stories', art1, 2014)
+    album2.adicionarFaixa("Magic")
+    album2.adicionarFaixa("Midnight")
+    album2.adicionarFaixa("A Sky Full of Stars")
+    
+    album3 = Album('A Head Full of Dreams', art1, 2015)
+    album3.adicionarFaixa("Adventure of a Lifetime")
+    album3.adicionarFaixa("Hymn for the Weekend")
+    album3.adicionarFaixa("Up&Up")
+    
+    
+    
+    lista_albuns.append(album1)
+    lista_albuns.append(album2)
+    lista_albuns.append(album3)
+    
+    
+    # print(art1.nome)
+    
+    # print(album1.titulo) 
+    # for musica in album1.faixas:
+    #     print(musica.titulo)
+    
+    # play1 = Playlist("Minha Playlist 01")
+    
+    # for musica in album1.faixas:
+    #     play1.adicionarMusicaPlay(musica)
+    # print(f"Playlist: {play1.nome}")    
+    
+    # for musica in play1.musicas:
+    #     print(musica.titulo)
+    # print()
+
+
+    # criar playlist de músicas do coldplay
+    play_coldplay = Playlist("Playlist Coldplay")
+    
+    # adicionar as musicas presentes no artista na playlist
+    for musica in art1.musicas:
+        play_coldplay.adicionarMusicaPlay(musica)
+
+    # listar músicas da playlist anterior
+    print(f"Playlist: {play_coldplay.nome}")
+    for musica in play_coldplay.musicas:
+        print(f"Nome da música: {musica.titulo} - Album {musica.album.titulo}")
         
     
-    play1 = Playlist("Minha Playlist 01")
+    play_diferente = Playlist("Playlist Diferente")
     
-    for musica in album1.faixas:
-        play1.adicionarMusicaPlay(musica)
-    print(f"Playlist: {play1.nome}")    
-    
-    for musica in play1.musicas:
-        print(musica.titulo)
+    for album in lista_albuns:
+        play_diferente.adicionarMusicaPlay(album.faixas[random.randrange(0,len(album.faixas))])
+        
     print()
-    
-    #criar e exibir uma playlist com todas as musicas do col
+    print(f"PLaylist: {play_diferente.nome}")
+    print(f"Músicas:")
+    for musica in play_diferente.musicas:
+        print(f"Nome da música: {musica.titulo} - Album {musica.album.titulo} - Artista {musica.artista.nome}")
