@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+
 import random
 class Artista():
     def __init__(self,nome):
@@ -107,8 +107,9 @@ class Playlist:
 if __name__ == "__main__":
     
     lista_albuns = []
-    
+  
     art1 = Artista("Coldplay")
+    
     album1 = Album('Mylo Xyloto', art1, 2011)
     album1.adicionarFaixa("Paradise")
     album1.adicionarFaixa("Hurts like Heaven")
@@ -124,29 +125,13 @@ if __name__ == "__main__":
     album3.adicionarFaixa("Hymn for the Weekend")
     album3.adicionarFaixa("Up&Up")
     
+
     
     
     lista_albuns.append(album1)
     lista_albuns.append(album2)
     lista_albuns.append(album3)
     
-    
-    # print(art1.nome)
-    
-    # print(album1.titulo) 
-    # for musica in album1.faixas:
-    #     print(musica.titulo)
-    
-    # play1 = Playlist("Minha Playlist 01")
-    
-    # for musica in album1.faixas:
-    #     play1.adicionarMusicaPlay(musica)
-    # print(f"Playlist: {play1.nome}")    
-    
-    # for musica in play1.musicas:
-    #     print(musica.titulo)
-    # print()
-
 
     # criar playlist de músicas do coldplay
     play_coldplay = Playlist("Playlist Coldplay")
@@ -158,7 +143,7 @@ if __name__ == "__main__":
     # listar músicas da playlist anterior
     print(f"Playlist: {play_coldplay.nome}")
     for musica in play_coldplay.musicas:
-        print(f"Nome da música: {musica.titulo} - Album {musica.album.titulo}")
+        print(f"Nome da música: {musica.titulo} - Album: {musica.album.titulo}")
         
     
     play_diferente = Playlist("Playlist Diferente")
@@ -170,4 +155,10 @@ if __name__ == "__main__":
     print(f"PLaylist: {play_diferente.nome}")
     print(f"Músicas:")
     for musica in play_diferente.musicas:
-        print(f"Nome da música: {musica.titulo} - Album {musica.album.titulo} - Artista {musica.artista.nome}")
+        print(f"Nome da música: {musica.titulo} - Album: {musica.album.titulo} - Artista: {musica.artista.nome}")
+        
+    print(f"\nLista de albuns do {art1.nome}:")
+    
+
+    for album in art1.albuns:
+        print(album.titulo)
