@@ -109,11 +109,17 @@ class ContaLimite(Conta):
         return self.__valorLimite
 
     def Retirada(self,valor,descricao):
-        if valor >= self.saldo and valor - self.saldo <= self.__valorLimite:
+        if valor > self.saldo and self.saldo >0 and valor - self.saldo <= self.__valorLimite:
                     
             super().Retirada(valor,descricao,None,True)
             
             self.__valorLimite = self.__valorLimite -  (-1)* self.saldo
+        elif self.saldo < 0 and self.__valorLimite > 0:
+             super().Retirada(valor,descricao,None,True)
+             self.__valorLimite -= valor
+        elif valor <= self.saldo:
+            super().Retirada(valor,descricao)
+        
         else:
             print("Valor acima do limite!")
 
@@ -167,20 +173,9 @@ class Transacao():
 if __name__ == "__main__":
     # Criando instâncias das contas
     conta_limite = ContaLimite(1, "João", 1000, 1000)
-    conta_poupanca = ContaPoupanca(2, "Maria", 500)
-    conta_comum = ContaCorrenteComum(3, "Carlos", 200)
-
-    # Realizando operações
-    conta_limite.Deposito(500, "Depósito inicial")
-    conta_poupanca.Deposito(200, "Depósito inicial")
-    conta_comum.Retirada(50, "Retirada inicial")
-
-    # Colocando as instâncias numa lista
-    contas = [conta_limite, conta_poupanca, conta_comum]
-
-    # Processando a lista e chamando o método de impressão de extrato para cada conta
-    for conta in contas:
-        conta.imprimirExtrato()
-
-
-    
+    conta_limite.imprimirExtrato()
+    conta_limite.Retirada(500,"Retirada")   
+    conta_limite.Retirada(600,"Retirada") 
+    conta_limite.Retirada(700,"Retirada") 
+    conta_limite.Deposito(800,"Deposito")
+    conta_limite.imprimirExtrato()
