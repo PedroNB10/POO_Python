@@ -103,6 +103,9 @@ class ContaLimite(Conta):
     def __init__(self,numero,nome,saldo, valorLimite):
         super().__init__(numero,nome,saldo)
         self.__valorLimite = valorLimite
+        self.__valorLimiteInicial = valorLimite
+    
+        
 
     @property
     def valorLimite(self):
@@ -114,15 +117,30 @@ class ContaLimite(Conta):
             super().Retirada(valor,descricao,None,True)
             
             self.__valorLimite = self.__valorLimite -  (-1)* self.saldo
-        elif self.saldo < 0 and self.__valorLimite > 0:
+        elif self.saldo < 0 and self.__valorLimite > 0 and valor <= self.__valorLimite:
              super().Retirada(valor,descricao,None,True)
              self.__valorLimite -= valor
+            
+        elif self.saldo == 0 and self.__valorLimite > 0:
+            super().Retirada(valor,descricao,None,True)
+            self.__valorLimite -= valor
         elif valor <= self.saldo:
             super().Retirada(valor,descricao)
         
         else:
             print("Valor acima do limite!")
+    
+    def Deposito(self,valor,descricao,transacao = None):
+        if self.saldo >= 0 and self.__valorLimite == self.__valorLimiteInicial:
+            super().Deposito(valor,descricao)
+        elif self.saldo < 0 and self.__valorLimite > 0:
 
+            if self.__valorLimite + valor <= self.__valorLimiteInicial:
+                
+                super().Deposito(valor,descricao,transacao)
+                self.__valorLimite += valor
+                     
+     
 
         
     def imprimirExtrato(self):
@@ -178,4 +196,6 @@ if __name__ == "__main__":
     conta_limite.Retirada(600,"Retirada") 
     conta_limite.Retirada(700,"Retirada") 
     conta_limite.Deposito(800,"Deposito")
+    conta_limite.Deposito(800,"Deposito")
+    conta_limite.Deposito(400,"Deposito")
     conta_limite.imprimirExtrato()
