@@ -133,12 +133,18 @@ class ContaLimite(Conta):
     def Deposito(self,valor,descricao,transacao = None):
         if self.saldo >= 0 and self.__valorLimite == self.__valorLimiteInicial:
             super().Deposito(valor,descricao)
-        elif self.saldo < 0 and self.__valorLimite > 0:
+            
+        elif self.saldo < 0 and self.__valorLimite >= 0:
 
             if self.__valorLimite + valor <= self.__valorLimiteInicial:
                 
                 super().Deposito(valor,descricao,transacao)
                 self.__valorLimite += valor
+                
+            elif self.__valorLimite + valor > self.__valorLimiteInicial:
+                super().Deposito(valor,descricao,transacao)
+                self.__valorLimite = self.__valorLimiteInicial
+                
                      
      
 
@@ -192,10 +198,14 @@ if __name__ == "__main__":
     # Criando instâncias das contas
     conta_limite = ContaLimite(1, "João", 1000, 1000)
     conta_limite.imprimirExtrato()
-    conta_limite.Retirada(500,"Retirada")   
-    conta_limite.Retirada(600,"Retirada") 
-    conta_limite.Retirada(700,"Retirada") 
-    conta_limite.Deposito(800,"Deposito")
-    conta_limite.Deposito(800,"Deposito")
-    conta_limite.Deposito(400,"Deposito")
+    conta_limite.Retirada(2000,"Retirada")   
+    # conta_limite.Retirada(600,"Retirada") 
+    # conta_limite.Retirada(700,"Retirada") 
+    # conta_limite.Deposito(800,"Deposito")
+    conta_limite.Deposito(1000,"Deposito")
+    conta_limite.Deposito(2000,"Deposito")
+    conta_limite.Deposito(3000,"Deposito")
+    conta_limite.Retirada(5999,"Retirada")
+    conta_limite.Deposito(3999,"Deposito")
+    # conta_limite.Deposito(400,"Deposito")
     conta_limite.imprimirExtrato()
