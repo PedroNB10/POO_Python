@@ -70,7 +70,7 @@ class Conta(ABC):
         self.__lista_transacoes = valor
         
     def retirada(self,valor,transacao = None):
-        if valor < 0:
+        if valor <= 0:
             print("Valor Inválido")
         
         elif self.saldo - valor < 0:
@@ -90,7 +90,7 @@ class Conta(ABC):
                 print("Saldo Insuficiente")
             
     def deposito(self,valor,transacao = None):
-        if valor < 0:
+        if valor <= 0:
             print("Valor Inválido")
         else:
             if  transacao is None:
@@ -155,7 +155,7 @@ class ContaComLimite(Conta):
         
 
     def retirada(self,valor, transacao = None):
-        if valor < 0:
+        if valor <= 0:
             print("Valor Inválido")
 
         else:
@@ -201,7 +201,7 @@ class ContaComLimite(Conta):
                     print("Saldo Insuficiente")
 
     def deposito(self,valor,transacao = None):
-        if valor < 0:
+        if valor <= 0:
             print("Valor Inválido")
         else:
             if transacao == None:
