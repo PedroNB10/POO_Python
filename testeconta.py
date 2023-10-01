@@ -138,6 +138,7 @@ class ContaComLimite(Conta):
         
 
     def retirada(self,valor,descricao, transacao = None):
+        # ajuste do valor :
         valor = - valor if valor < 0 else valor
         if transacao is None:
    
@@ -178,7 +179,8 @@ class ContaComLimite(Conta):
            
             
     def deposito(self,valor,descricao, transacao = None):
-        
+        # ajuste do valor
+        valor = -valor if valor < 0 else valor
         if transacao == None:
             
             if valor + self.__limite <= self.__limite_inicial:
@@ -225,7 +227,5 @@ if __name__ == "__main__":
     trans = Transacao(conta,-400,"Retirada")
     trans = Transacao(conta,-300,"Retirada")
     trans = Transacao(conta,-200,"Retirada")
-
-
 
     conta.imprimirExtrato()
