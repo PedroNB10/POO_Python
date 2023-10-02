@@ -173,7 +173,7 @@ class ContaComLimite(Conta):
                     transacao = Transacao(self,valor,True)
                     self.lista_transacoes.append(transacao)
 
-                elif self.saldo < 0 and self.__limite > 0 and self.__limite < self.__limite_inicial and self.__limite - valor >= 0:
+                elif self.saldo < 0 and self.__limite > 0 and self.__limite - valor >= 0:
                     self.saldo -= valor
                     self.__limite -= valor
                     transacao = Transacao(self,valor,True)
@@ -192,7 +192,7 @@ class ContaComLimite(Conta):
                     self.__limite -= valor_restante
                     self.lista_transacoes.append(transacao)
 
-                elif self.saldo < 0 and self.__limite > 0 and self.__limite < self.__limite_inicial and self.__limite - valor >= 0:
+                elif self.saldo < 0 and self.__limite > 0 and self.__limite - valor >= 0:
                     self.saldo -= valor
                     self.__limite -= valor
                     self.lista_transacoes.append(transacao)
@@ -204,7 +204,7 @@ class ContaComLimite(Conta):
         if valor <= 0:
             print("Valor Inválido")
         else:
-            if transacao == None:
+            if transacao is None:
                 
                 if valor + self.__limite <= self.__limite_inicial:
                     self.saldo += valor
@@ -255,5 +255,7 @@ if __name__ == "__main__":
     trans = Transacao(conta,-300)
     trans = Transacao(conta,-200)
     trans = Transacao(conta,-400)
+    
+    trans = Transacao(conta,3000)
     trans = Transacao(conta,-1)
     conta.imprimirExtrato()
