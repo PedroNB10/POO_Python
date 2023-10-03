@@ -7,6 +7,24 @@ class Venda:
         self.__mes_venda = mes_venda
         self.__ano_venda = ano_venda
         self.__valor_venda = valor_venda
+        
+    @property
+    def codigo_imovel(self):
+        return self.__codigo_imovel
+    
+    @property
+    def mes_venda(self):
+        return self.__mes_venda
+    
+    @property
+    def ano_venda(self):
+        return self.__ano_venda
+    
+    @property
+    def valor_venda(self):
+        return self.__valor_venda
+    
+    
 
 class Vendedor(ABC):
     def __init__(self, codigo, nome):
@@ -29,6 +47,10 @@ class Vendedor(ABC):
 
     def adicionarVenda(self,venda):
         self.__vendas.append(venda)
+        
+    @abstractmethod
+    def calculaRenda(self):
+        pass
         
     @abstractmethod
     def getDados(self):
@@ -67,10 +89,11 @@ class Comissionado(Vendedor):
     def percentual_comissao(self):
         return self.__percentual_comissao
     
-
+    def getComissao(self):
+        return self.__percentual_comissao
+    
+    def getDados(self):
+        pass
+            
     
     
-        
-        
-    
-        
