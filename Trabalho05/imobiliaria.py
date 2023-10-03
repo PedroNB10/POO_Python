@@ -9,19 +9,19 @@ class Venda:
         self.__valor_venda = valor_venda
         
     @property
-    def codigo_imovel(self):
+    def getCodImovel(self):
         return self.__codigo_imovel
     
     @property
-    def mes_venda(self):
+    def getMesVenda(self):
         return self.__mes_venda
     
     @property
-    def ano_venda(self):
+    def getAnoVenda(self):
         return self.__ano_venda
     
     @property
-    def valor_venda(self):
+    def getValorVenda(self):
         return self.__valor_venda
     
     
@@ -33,31 +33,30 @@ class Vendedor(ABC):
         self.__vendas = []
         
     @property
-    def codigo(self):
+    def getCodigo(self):
         return self.__codigo
     
     @property
-    def nome(self):
+    def getNome(self):
         return self.__nome
     
     @property
-    def vendas(self):
+    def getVendas(self):
         return self.__vendas
     
 
-    def adicionarVenda(self,venda):
-        self.__vendas.append(venda)
+    def adicionaVenda(self,codigo_imovel,mes_venda,ano_venda,valor_venda):
+        self.__vendas.append(Venda(codigo_imovel,mes_venda,ano_venda,valor_venda))
         
     @abstractmethod
-    def calculaRenda(self):
+    def calculaRenda(self, mes, ano):
         pass
         
     @abstractmethod
     def getDados(self):
         pass
     
-    
-    
+
 class Contratado(Vendedor):
     def __init__(self, codigo, nome, salario_fixo, numero_carteira):
         super().__init__(codigo,nome)
@@ -66,34 +65,66 @@ class Contratado(Vendedor):
         
         
     @property
-    def salario_fixo(self):
+    def getSalarioFixo(self):
         return self.__salario_fixo
     
     @property
-    def numero_carteira(self):
+    def getNroCartTrabalho(self):
         return self.__numero_carteira
+    
+    def getDados(self):
+        pass
+    
+    def calculaRenda(self,mes,ano):
+        vendas = self.getVendas.copy()
+        vendas_do_mes = [venda.getValorVenda * (1/100) for venda in vendas if venda.getMesVenda == mes and venda.getAnoVenda == ano]
+        soma = sum(vendas_do_mes)
+            
+        return soma + self.__salario_fixo
+    
+    
     
     
 class Comissionado(Vendedor):
     def __init__(self,codigo, nome, cpf, percentual_comissao):
-        super().init(self, codigo, nome)
+        super().__init__(codigo, nome)
         self.__cpf = cpf
         self.__percentual_comissao = percentual_comissao
         
         
     @property
-    def cpf(self):
+    def getNroCPF(self):
         return self.__cpf
     
     @property
-    def percentual_comissao(self):
-        return self.__percentual_comissao
-    
     def getComissao(self):
         return self.__percentual_comissao
     
+
     def getDados(self):
         pass
-            
     
+    def calculaRenda(self, mes, ano):
+        vendas = self.getVendas.copy()
+  
+        vendas_do_mes = [venda.getValorVenda * (self.getComissao/100) for venda in vendas if venda.getMesVenda == mes and venda.getAnoVenda == ano]
+        soma = sum(vendas_do_mes)
+            
+        return soma
+            
+if __name__ == "__main__":
+    funcContratado = Contratado(1001, 'João da Silva', 2000, 1234)
+    funcContratado.adicionaVenda(100, 3, 2022, 200000)
+    funcContratado.adicionaVenda(101, 3, 2022, 300000)
+    funcContratado.adicionaVenda(102, 4, 2022, 600000)
+    funcComissionado = Comissionado(1002, 'José Santos', 4321, 5)
+    funcComissionado.adicionaVenda(200, 3, 2022, 200000)
+    funcComissionado.adicionaVenda(201, 3, 2022, 400000)
+    funcComissionado.adicionaVenda(202, 4, 2022, 500000)
+    listaFunc = [funcContratado, funcComissionado]
+    for func in listaFunc:
+        # print (func.getDados())
+        print("Renda no mês 3 de 2022: ")
+        print(func.calculaRenda(3, 2022))
+
     
