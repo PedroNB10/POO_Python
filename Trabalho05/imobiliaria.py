@@ -73,7 +73,7 @@ class Contratado(Vendedor):
         return self.__numero_carteira
     
     def getDados(self):
-        pass
+        return f"Nome: {self.getNome} - Nro Carteira: {self.getNroCartTrabalho}"
     
     def calculaRenda(self,mes,ano):
         vendas = self.getVendas.copy()
@@ -102,7 +102,8 @@ class Comissionado(Vendedor):
     
 
     def getDados(self):
-        pass
+        return f"Nome: {self.getNome} - Nro CPF: {self.getNroCPF}"
+    
     
     def calculaRenda(self, mes, ano):
         vendas = self.getVendas.copy()
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     funcComissionado.adicionaVenda(202, 4, 2022, 500000)
     listaFunc = [funcContratado, funcComissionado]
     for func in listaFunc:
-        # print (func.getDados())
+        print (func.getDados())
         print("Renda no mês 3 de 2022: ")
         print(func.calculaRenda(3, 2022))
 
