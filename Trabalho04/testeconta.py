@@ -163,20 +163,20 @@ class ContaComLimite(Conta):
     
                 if self.saldo -valor >= 0:
                     self.saldo -= valor
-                    transacao = Transacao(self,valor,True)
+                    transacao = Transacao(self,-valor,True)
                     self.lista_transacoes.append(transacao)
 
                 elif self.saldo > 0 and self.saldo -valor  < 0  and self.__limite - (valor - self.saldo) >= 0:
                     valor_restante = valor - self.saldo
                     self.saldo -= valor 
                     self.__limite -= valor_restante
-                    transacao = Transacao(self,valor,True)
+                    transacao = Transacao(self,-valor,True)
                     self.lista_transacoes.append(transacao)
 
                 elif self.saldo < 0 and self.__limite > 0 and self.__limite - valor >= 0:
                     self.saldo -= valor
                     self.__limite -= valor
-                    transacao = Transacao(self,valor,True)
+                    transacao = Transacao(self,-valor,True)
                     self.lista_transacoes.append(transacao)  
                 else:
                     print("Saldo Insuficiente")       
@@ -241,21 +241,18 @@ class ContaComLimite(Conta):
 
     
 if __name__ == "__main__":
-    conta = ContaComLimite("Maria",1500)
+    conta1 = ContaComLimite("Maria",1500)
     conta2 = ContaPoupanca("Bob")
     conta3 = ContaComum("Joel")
-    conta.imprimirExtrato()
-    # conta2.imprimirExtrato()
-    # conta3.imprimirExtrato()
-    conta.deposito(1000)
-
-    trans = Transacao(conta,-800)
-    trans = Transacao(conta,-400)
-    trans = Transacao(conta,-400)
-    trans = Transacao(conta,-300)
-    trans = Transacao(conta,-200)
-    trans = Transacao(conta,-400)
     
-    trans = Transacao(conta,3000)
-    trans = Transacao(conta,-1)
-    conta.imprimirExtrato()
+    lista_contas = [conta1,conta2,conta3]
+    
+    for conta in lista_contas:   
+        conta.deposito(1000)
+        conta.retirada(550)
+        conta.retirada(900)
+
+        conta.imprimirExtrato()
+        print()
+ 
+        
