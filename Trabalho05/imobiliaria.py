@@ -8,19 +8,19 @@ class Venda:
         self.__ano_venda = ano_venda
         self.__valor_venda = valor_venda
         
-    @property
+
     def getCodImovel(self):
         return self.__codigo_imovel
     
-    @property
+
     def getMesVenda(self):
         return self.__mes_venda
     
-    @property
+
     def getAnoVenda(self):
         return self.__ano_venda
     
-    @property
+
     def getValorVenda(self):
         return self.__valor_venda
     
@@ -32,15 +32,15 @@ class Vendedor(ABC):
         self.__nome = nome
         self.__vendas = []
         
-    @property
+
     def getCodigo(self):
         return self.__codigo
     
-    @property
+
     def getNome(self):
         return self.__nome
     
-    @property
+
     def getVendas(self):
         return self.__vendas
     
@@ -64,20 +64,20 @@ class Contratado(Vendedor):
         self.__numero_carteira = numero_carteira
         
         
-    @property
+
     def getSalarioFixo(self):
         return self.__salario_fixo
     
-    @property
+
     def getNroCartTrabalho(self):
         return self.__numero_carteira
     
     def getDados(self):
-        return f"Nome: {self.getNome} - Nro Carteira: {self.getNroCartTrabalho}"
+        return f"Nome: {self.getNome()} - Nro Carteira: {self.getNroCartTrabalho()}"
     
     def calculaRenda(self,mes,ano):
-        vendas = self.getVendas.copy()
-        vendas_do_mes = [venda.getValorVenda * (1/100) for venda in vendas if venda.getMesVenda == mes and venda.getAnoVenda == ano]
+        vendas = self.getVendas().copy()
+        vendas_do_mes = [venda.getValorVenda() * (1/100) for venda in vendas if venda.getMesVenda() == mes and venda.getAnoVenda() == ano]
         soma = sum(vendas_do_mes)
             
         return soma + self.__salario_fixo
@@ -92,23 +92,23 @@ class Comissionado(Vendedor):
         self.__percentual_comissao = percentual_comissao
         
         
-    @property
+ 
     def getNroCPF(self):
         return self.__cpf
     
-    @property
+
     def getComissao(self):
         return self.__percentual_comissao
     
 
     def getDados(self):
-        return f"Nome: {self.getNome} - Nro CPF: {self.getNroCPF}"
+        return f"Nome: {self.getNome()} - Nro CPF: {self.getNroCPF()}"
     
     
     def calculaRenda(self, mes, ano):
-        vendas = self.getVendas.copy()
+        vendas = self.getVendas().copy()
   
-        vendas_do_mes = [venda.getValorVenda * (self.getComissao/100) for venda in vendas if venda.getMesVenda == mes and venda.getAnoVenda == ano]
+        vendas_do_mes = [venda.getValorVenda() * (self.getComissao()/100) for venda in vendas if venda.getMesVenda() == mes and venda.getAnoVenda() == ano]
         soma = sum(vendas_do_mes)
             
         return soma
