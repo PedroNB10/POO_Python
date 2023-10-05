@@ -17,7 +17,18 @@ class Fracao:
         self.__denominador = denominador
         
     def __str__(self): # sobrescrevendo o método print() para ser possível printar a classe
-        return str(self.__numerador) + "/"+ str(self.__denominador)    
+        if self.__numerador < self.__denominador:
+            return str(self.__numerador) + "/"+ str(self.__denominador)  
+        else:
+            resto = self.__numerador % self.__denominador
+            constante = self.__numerador // self.__denominador
+            
+            if resto == 0:
+                return f"{constante}"
+            else:
+                return f"{constante} e {resto}/{self.__denominador}"
+            
+            
     
     def __add__(self,f2): # sobrecarga da função soma
         numerador = self.__numerador * f2.denominador + self.__denominador * f2.numerador
@@ -44,9 +55,9 @@ class Fracao:
 if __name__ == "__main__":
     
     
-    frac = Fracao(1,2)
+    frac = Fracao(30,6)
     frac.simplifica()
-    frac2 = Fracao(1,2)
+    frac2 = Fracao(6,6)
     
     print(compararFracoes(frac,frac2))
     print(frac is frac2)
@@ -57,3 +68,5 @@ if __name__ == "__main__":
     print(frac2)
     print("Soma")
     print(frac + frac2)
+    
+    # FAZER O DESAFIO
