@@ -44,14 +44,14 @@ class Conta:
         return False
     
     def adicionaTransf(self,valor,data,senha, contaFavorecido = None):
-        if  senha == self.getSenha and (self.calculaSaldo() + self.getLimite) - valor >= 0:
+        if contaFavorecido is not None and senha == self.getSenha and (self.calculaSaldo() + self.getLimite) - valor >= 0:
             
             transf_conta_debito = Transferencia(valor,data,senha,"D")
             self.getTransacoes.append(transf_conta_debito)
             
 
             transf_conta_credito = Transferencia(valor,data,senha,"C")
-            contaFavorecido.adicionaTransf(valor, data, senha, None)
+            contaFavorecido.adicionaTransf(valor, data, senha)
             contaFavorecido.getTransacoes.append(transf_conta_credito)
     
             return True
