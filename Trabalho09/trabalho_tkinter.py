@@ -21,7 +21,7 @@ class ModelCliente():
         return self.__codigo
 
 class View():
-    def __init__(self, master, controller):
+    def __init__(self, master, controller): # master é o elemento pai da View
         self.controller = controller
         self.janela = tk.Frame(master)
         self.janela.pack()
@@ -76,7 +76,7 @@ class View():
       
 class Controller():       
     def __init__(self):
-        self.root = tk.Tk()
+        self.root = tk.Tk() # janela principal (janela raiz)
         self.root.geometry('400x400')
         self.listaClientes = []
 
@@ -89,9 +89,14 @@ class Controller():
         self.root.mainloop()
 
     def salvaHandler(self, event):
-        nomeCli = self.view.inputText1.get()
+        nomeCli = self.view.inputText1.get() # pega o estado atual do input
         emailCli = self.view.inputText2.get()
         codigoCli = self.view.inputText3.get()
+
+        if nomeCli == "" or emailCli == "" or codigoCli == "":
+            self.view.mostraJanela('Erro', 'Todos os campos devem ser preenchidos')
+            return
+
         cliente = ModelCliente(nomeCli, emailCli, codigoCli)
         self.listaClientes.append(cliente)
         self.view.mostraJanela('Sucesso', 'Cliente cadastrado com sucesso')
@@ -104,11 +109,18 @@ class Controller():
 
     def mostraHandler(self, event):
         mensagem = ""
+
+        if self.listaClientes == []:
+            self.view.mostraJanela("Erro", "Não há clientes cadastrados até o momento!")
+            return
         for cliente in self.listaClientes:
             mensagem += cliente.nome + " \n"
         self.view.mostraJanela("Clientes cadastrados:", mensagem)
 
     def ProcurarCodigoHandler(self, event):
+        if self.listaClientes == []:
+            self.view.mostraJanela("Erro", "Não há clientes cadastrados até o momento!")
+            return
         answer = simpledialog.askstring("Input", "Digite o código a ser procurado",
                                 parent = self.root)
 
