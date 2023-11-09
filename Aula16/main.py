@@ -45,8 +45,8 @@ class ControlePrincipal():
     def __init__(self):
         self.root = tk.Tk()
 
-        self.ctrlEstudante = est.CtrlEstudante() # controlador estudante
-        self.ctrlDisciplina = disc.CtrlDisciplina() # controlador disciplina
+        self.ctrlEstudante = est.CtrlEstudante() # controlador estudante, instancia a classe CtrlEstudante()
+        self.ctrlDisciplina = disc.CtrlDisciplina() # controlador disciplina, instancia a classe CtrlDisciplina()
 
         self.limite = LimitePrincipal(self.root, self) 
 

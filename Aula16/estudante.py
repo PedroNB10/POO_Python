@@ -15,13 +15,13 @@ class Estudante:
     def nome(self):
         return self.__nome
 
-class LimiteInsereEstudantes(tk.Toplevel):
+class LimiteInsereEstudantes(tk.Toplevel): # janela secundaria tk.Toplevel
     def __init__(self, controle):
 
         tk.Toplevel.__init__(self)
         self.geometry('250x100')
         self.title("Estudante")
-        self.controle = controle
+        self.controle = controle # controle da classe view de estudantes
 
         self.frameNro = tk.Frame(self)
         self.frameNome = tk.Frame(self)
@@ -65,7 +65,7 @@ class CtrlEstudante():
         self.listaEstudantes = []
 
     def insereEstudantes(self):
-        self.limiteIns = LimiteInsereEstudantes(self)
+        self.limiteIns = LimiteInsereEstudantes(self) # cria um elemento janela assim que a a função é chamada, limiteIns é um atributo de CtrlEstudante
 
     def mostraEstudantes(self):
         str = 'Nro Matric. -- Nome\n'
@@ -86,4 +86,4 @@ class CtrlEstudante():
         self.limiteIns.inputNome.delete(0, len(self.limiteIns.inputNome.get()))
 
     def fechaHandler(self, event):
-        self.limiteIns.destroy()
+        self.limiteIns.destroy() # destrói a instância de tela secundaria de estudante
