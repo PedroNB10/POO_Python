@@ -85,6 +85,10 @@ class ArtistController():
         self.artist_list = [] # list of instances of the class Artist
         self.artists_names = [] # list of names of the artists
         self.main_controller = main_controller
+
+
+    def get_artist_name_by_instance(self, artist_instance):
+        return artist_instance.name
     
     def get_artist_instance_by_name(self, artist_name):
         for artist in self.artist_list:
@@ -145,12 +149,17 @@ class ArtistController():
             albuns_instances = self.main_controller.album_controller.get_album_list_instances()
 
             for album in albuns_instances:
-                if album.artist == artist_name:
+                artist_instance = self.main_controller.album_controller.get_album_artist_instance(album)
+                if artist_instance.name == artist_name:
                     str += "\n\nAlbum: " + album.title + "\n"
                     str += "Ano: " + album.year + "\n"
-                    str += "Músicas: \n"
-                    for track in album.list_tracks():
-                        str += track.title + "\n"
+
+                    if len(album.list_tracks()) == 0:
+                        str += "Nenhuma música cadastrada\n"
+                    else:
+                        str += "Músicas: \n"
+                        for track in album.list_tracks():
+                            str += track.title + "\n"
 
             messagebox.showinfo("Artista", str)
         else:

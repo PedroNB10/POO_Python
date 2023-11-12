@@ -23,13 +23,6 @@ class Album:
     def year(self):
         return self.__year
 
-    @property
-    def name(self):
-        return self.__name
-    
-    @name.setter
-    def name(self, string):
-        self.__name = string
     
     @property
     def artist(self):
@@ -134,11 +127,18 @@ class InsertAlbumView(tk.Toplevel):
 
 class AlbumController:
     def __init__(self, mainController):
-        # self.__album_view = AlbumView(self)
-        # self.__album_list_view = AlbumListView(self)
         self.main_controller = mainController
         self.album_list = [] # list of instances of Album class
         self.album_names = []
+
+    def get_album_instance_by_name(self, album_name):
+        for album in self.album_list:
+            if album.title == album_name:
+                return album
+        return None
+
+    def get_album_artist_instance(self, album_instance):
+        return album_instance.artist
 
     def get_album_list_instances(self):
         return self.album_list
@@ -181,11 +181,13 @@ class AlbumController:
                     messagebox.showerror("Erro", "Música já cadastrada!")
                     return
         
-
-        last_album_added = self.album_list[-1]
-
-
-        last_album_added.add_track(mus.Music(track_title, last_album_added.title, last_album_added.artist, len(last_album_added.list_tracks()) + 1))
+        album = self.get_album_instance_by_name(self.__insert_album_view.entry_album_name.get())
+        if album == None:
+            messagebox.showerror("Erro", "Album não encontrado!")
+            return
+        # new_track is a instance of Music class
+        new_track = self.main_controller.music_controller.register_music(track_title, album, album.artist, len(album.list_tracks()) + 1) 
+        album.add_track(new_track)
 
         messagebox.showinfo("Sucesso", "Música inserida com sucesso!")
 
@@ -204,24 +206,22 @@ class AlbumController:
             self.main_controller.artist_controller.insert_artist(album_artist)
             artist_instance = self.main_controller.artist_controller.get_artist_instance_by_name(album_artist)
             
-        artists_names = self.main_controller.artist_controller.get_artists_names()
-
         if album_name in self.album_names:
             messagebox.showerror("Erro", "Album já cadastrado!")
             return
         
-
-        album = Album(album_name, album_artist, album_year)
+        album = Album(album_name, artist_instance, album_year)
         artist_instance.add_album(album_name)
         self.album_list.append(album)
         self.album_names.append(album_name)
+        print(self.album_names)
         messagebox.showinfo("Sucesso", "Album inserido com sucesso!")
 
     def get_albuns_by_artist(self, artist_name):
         list_albuns_by_artist = []
 
         for album in self.album_list:
-            if album.artist == artist_name:
+            if album.artist.name == artist_name:
                 list_albuns_by_artist.append(album)
 
         return list_albuns_by_artist

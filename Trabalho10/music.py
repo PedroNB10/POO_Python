@@ -36,4 +36,39 @@ class Music:
     def track(self, string):
         self.__track = string
 
+class MusicController:
+    def __init__(self, main_controller):
+        self.main_controller = main_controller
+        self.__musics_registrated = []
+        self.__musics_registrated_names = []
+
+    def get_music_instance_by_name(self, name):
+        for music in self.__musics_registrated:
+            if music.title == name:
+                return music
+        return None
+
+    
+    def register_music(self, music, album, artist, track_number):
+        music = Music(music, album, artist, track_number)
+        self.__musics_registrated.append(music)
+        self.__musics_registrated_names.append(music.title)
+        return music
+
+    def list_musics_by_artist(self, artist):
+        musics = []
+        for music in self.__musics_registrated:
+            if music.artist == artist:
+                musics.append(music)
+        return musics
+    
+    def list_all_musics(self):
+        return self.__musics_registrated
+    
+    def list_all_musics_names(self):
+        return self.__musics_registrated_names
+    
+  
+    
+
 

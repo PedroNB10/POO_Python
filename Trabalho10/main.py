@@ -20,6 +20,8 @@ class MainController:
         self.artist_controller = art.ArtistController(self) # this line instantiate the controller
         self.playlist_controller = play.PlaylistController(self) # this line instantiate the controller
 
+        self.music_controller = mus.MusicController(self) # this line instantiate the controller
+
         self.root.mainloop()
 
     def insert_artist(self):
@@ -41,9 +43,11 @@ class MainController:
 
 
     def insert_playlist(self):
+        self.playlist_controller.create_insert_playlist_view()
         print("insert_playlist")
 
     def list_playlists(self):
+        self.playlist_controller.create_search_playlist_view()
         print("list_playlists")
 
     def destroy_view(self,view):
@@ -78,9 +82,10 @@ class MainView:
 
         self.playlist_menu.add_command(label="Cadastrar", command=self.main_controller.insert_playlist) # this line add a command to the submenu option
         self.playlist_menu.add_command(label="Consultar", command=self.main_controller.list_playlists) # this line add a command to the submenu option
-
+        
         self.album_menu.add_command(label="Cadastrar", command=self.main_controller.insert_album) # this line add a command to the submenu option
         self.album_menu.add_command(label="Consultar", command=self.main_controller.list_albuns)
+        
 
 
 
