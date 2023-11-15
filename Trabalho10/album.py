@@ -162,9 +162,9 @@ class AlbumController:
         for album in self.album_list:
             if album.title == album_name:
                 str = ''
-                str += 'Nome: ' + album.title + '\n'
+                str += f'Album: {album.title}\n'
                 for track in album.list_tracks():
-                    str += track.title + '\n'
+                    str += f'|Faixa - {track.number}| '+ track.title + "\n"
                 messagebox.showinfo("Album", str)
                 return
 
@@ -178,7 +178,8 @@ class AlbumController:
         for album in self.album_list:
             for track in album.list_tracks():
                 if track.title == track_title:
-                    messagebox.showerror("Erro", "Música já cadastrada!")
+                    messagebox.showerror("Erro", f"A música '{track_title}' já foi cadastrada!")
+                    self.__insert_track_view.entry_track_name.delete(0, len(self.__insert_track_view.entry_track_name.get()))
                     return
         
         album = self.get_album_instance_by_name(self.__insert_album_view.entry_album_name.get())
@@ -190,6 +191,7 @@ class AlbumController:
         album.add_track(new_track)
 
         messagebox.showinfo("Sucesso", "Música inserida com sucesso!")
+        self.__insert_track_view.entry_track_name.delete(0, len(self.__insert_track_view.entry_track_name.get()))
 
     def insert_album(self):
         album_name = self.__insert_album_view.entry_album_name.get()
@@ -214,7 +216,6 @@ class AlbumController:
         artist_instance.add_album(album_name)
         self.album_list.append(album)
         self.album_names.append(album_name)
-        print(self.album_names)
         messagebox.showinfo("Sucesso", "Album inserido com sucesso!")
 
     def get_albuns_by_artist(self, artist_name):

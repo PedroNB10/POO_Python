@@ -111,13 +111,12 @@ class InsertPlaylistView(tk.Toplevel):
 
 
 
-         
 
 class PlaylistController:
     def __init__(self, mainController):
         self.main_controller = mainController
         self.playlist_list = []
-
+        self.playlist_names = []
 
     
     def update_listbox(self, event):
@@ -127,16 +126,12 @@ class PlaylistController:
         
 
         selected_artist = self.insert_playlist_view.select_combo_box.get()
-        if selected_artist == "todas":
-            for music in self.main_controller.music_controller.list_all_musics():
+
+        for music in self.main_controller.music_controller.list_all_musics():
+            print("music.artist: ", music.artist.name)
+            print("selected_artist: ", selected_artist)
+            if music.artist.name == selected_artist and music not in self.tracks_added_to_playlist:
                 self.insert_playlist_view.listbox.insert(tk.END, music.title)
-        else:
-            print(self.main_controller.music_controller.list_all_musics())
-            for music in self.main_controller.music_controller.list_all_musics():
-                print("music.artist: ", music.artist.name)
-                print("selected_artist: ", selected_artist)
-                if music.artist.name == selected_artist and music not in self.tracks_added_to_playlist:
-                    self.insert_playlist_view.listbox.insert(tk.END, music.title)
 
     def get_playlist_instance_by_name(self, playlist_name):
         for playlist in self.playlist_list:
@@ -156,9 +151,19 @@ class PlaylistController:
 
     def create_playlist(self, event):
         name = self.insert_playlist_view.input_name_playlist.get()
+        if name == "":
+            messagebox.showerror("Erro", "Preencha todos os campos!")
+            return
+        
+        if name in self.playlist_names:
+            messagebox.showerror("Erro", "Playlist já existente")
+            return
+        
+        messagebox.showinfo("Sucesso", f"Playlist {name} criada com sucesso")
         new_playlist =  Playlist(name, self.tracks_added_to_playlist)
 
         self.playlist_list.append(new_playlist)
+        self.playlist_names.append(name)
         self.main_controller.destroy_view(self.insert_playlist_view)
     
     def add_music(self, event):
@@ -172,7 +177,7 @@ class PlaylistController:
         music_instance = self.main_controller.music_controller.get_music_instance_by_name(music_selected)
         self.tracks_added_to_playlist.append(music_instance)
         self.insert_playlist_view.listbox.delete(tk.ACTIVE)
-        messagebox.showinfo("Sucesso", "Música adicionada com sucesso")
+        messagebox.showinfo("Sucesso", f"A Música '{music_instance.title}' foi adicionada com sucesso")
 
     def show_tracks_from_playlist(self):
         playlist_name = self.search_playlist_view.input_search.get()
@@ -183,9 +188,9 @@ class PlaylistController:
             return
         
         str = ''
-        str += 'Nome: ' + playlist_instance.name + '\n'
+        str += 'Nome da Playlist: ' + playlist_instance.name + '\n'
         for music in playlist_instance.list_musics():
-            str += music.title + '\n'
+            str += f'|Faixa - {music.number}| '+ music.title + "\n"
 
         messagebox.showinfo("Playlist", str)
 

@@ -9,6 +9,9 @@ class Music:
         self.__artist = artist
         self.__track_number = track_number
 
+    @property
+    def number(self):
+        return self.__track_number
     
     @property
     def artist(self):

@@ -123,7 +123,8 @@ class ArtistController():
                 new_artist = Artist(artist_name)
                 self.artist_list.append(new_artist) # append the instance of the class Artist to the list
                 self.artists_names.append(artist_name) # append the name of the artist to the list
-                messagebox.showinfo("Sucesso", "Artista inserido com sucesso")
+                messagebox.showinfo("Sucesso", f"O Artista {artist_name} foi inserido com sucesso")
+                self.insert_artist_view.entry_artist_name.delete(0, len(self.insert_artist_view.entry_artist_name.get()))
         
         else: # if artist_name is not None, then it means that the function was called by the insert_album function
             if artist_name in self.artists_names:
@@ -159,7 +160,7 @@ class ArtistController():
                     else:
                         str += "Músicas: \n"
                         for track in album.list_tracks():
-                            str += track.title + "\n"
+                            str += f'|Faixa - {track.number}| '+ track.title + "\n"
 
             messagebox.showinfo("Artista", str)
         else:

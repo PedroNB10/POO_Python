@@ -26,29 +26,29 @@ class MainController:
 
     def insert_artist(self):
         self.artist_controller.create_insert_artist_view()
-        print("insert_artist")
+
 
     def list_artists(self):
         self.artist_controller.create_search_artist_view()
-        print("list_artists")
+
 
 
     def insert_album(self):
         self.album_controller.create_insert_album_view()
-        print("insert_album")
+
 
     def list_albuns(self):
         self.album_controller.create_search_albuns_view()
-        print("list_albuns")    
+  
 
 
     def insert_playlist(self):
         self.playlist_controller.create_insert_playlist_view()
-        print("insert_playlist")
+
 
     def list_playlists(self):
         self.playlist_controller.create_search_playlist_view()
-        print("list_playlists")
+   
 
     def destroy_view(self,view):
         view.destroy()
