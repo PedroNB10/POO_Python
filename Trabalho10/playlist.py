@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+
 class Playlist:
     def __init__(self, name, musics):
         self.__name = name
@@ -9,10 +10,6 @@ class Playlist:
     @property
     def name(self):
         return self.__name
-    
-    @name.setter
-    def name(self, string):
-        self.__name = string
 
     def list_musics(self):
         return self.__musics
@@ -64,9 +61,6 @@ class InsertPlaylistView(tk.Toplevel):
         self.input_name_playlist = tk.Entry(self.frame_name_playlist,width=20)
         self.input_name_playlist.pack(side="left")
 
-        
-
-
 
         self.label_artist_name = tk.Label(self.frame_artist,text="Escolha o artista: ")
         self.label_artist_name.pack(side="left")
@@ -75,13 +69,9 @@ class InsertPlaylistView(tk.Toplevel):
         self.combobox = ttk.Combobox(self.frame_artist, width = 15 , textvariable = self.select_combo_box)
         self.combobox.pack(side="left")
         self.combobox['values'] = artists_list
-
-
-        
         
         self.label_music_name = tk.Label(self.frame_musics,text="Escolha a musica: ")
 
-        
         self.listbox = tk.Listbox(self.frame_musics)
         self.listbox.pack(side="left")
         for music in musics_list:
@@ -89,9 +79,6 @@ class InsertPlaylistView(tk.Toplevel):
 
 
         self.combobox.bind("<<ComboboxSelected>>", self.controller.update_listbox)
-
-
-
 
 
         self.add_music_button = tk.Button(self.frame_buttons, text="Adicionar Música")
@@ -106,12 +93,6 @@ class InsertPlaylistView(tk.Toplevel):
 
 
 
-
-
-
-
-
-
 class PlaylistController:
     def __init__(self, mainController):
         self.main_controller = mainController
@@ -120,16 +101,13 @@ class PlaylistController:
 
     
     def update_listbox(self, event):
-        print("update_listbox")
-        print("combobox selected: ", self.insert_playlist_view.select_combo_box.get())
         self.insert_playlist_view.listbox.delete(0, tk.END) # clear listbox
         
 
         selected_artist = self.insert_playlist_view.select_combo_box.get()
 
         for music in self.main_controller.music_controller.list_all_musics():
-            print("music.artist: ", music.artist.name)
-            print("selected_artist: ", selected_artist)
+
             if music.artist.name == selected_artist and music not in self.tracks_added_to_playlist:
                 self.insert_playlist_view.listbox.insert(tk.END, music.title)
 

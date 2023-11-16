@@ -11,22 +11,16 @@ class Artist:
     def name(self):
         return self.__name
     
-    @name.setter
-    def name(self, string):
-        self.__name = string
-
     @property
     def albums(self):
         return self.__albums
     
-
-    def add_album(self, album):
-        self.__albums.append(album)
-
     @property
     def musics(self):
         return self.__musics
     
+    def add_album(self, album):
+        self.__albums.append(album)
 
     def add_music(self, music):
         self.__musics.append(music)

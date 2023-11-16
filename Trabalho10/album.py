@@ -27,11 +27,6 @@ class Album:
     @property
     def artist(self):
         return self.__artist
-    
-    @artist.setter
-    def artist(self, string):
-        self.__artist = string
-
 
     def list_tracks(self):
         return self.__tracks
@@ -52,6 +47,12 @@ class InsertTrackView(tk.Toplevel):
 
         self.entry_track_name = tk.Entry(self)
         self.entry_track_name.pack()
+
+        self.label_album_name = tk.Label(self, text="Nome do album")
+        self.label_album_name.pack()
+
+        self.entry_album_name = tk.Entry(self)
+        self.entry_album_name.pack()
 
         self.submit_button = tk.Button(self, text="Inserir", command=controller.insert_track)
         self.submit_button.pack()
@@ -111,9 +112,6 @@ class InsertAlbumView(tk.Toplevel):
         self.submit_button = tk.Button(self, text="Inserir", command=controller.insert_album)
         self.submit_button.pack()
 
-        self.add_track_button = tk.Button(self, text="Adicionar Música", command=controller.create_insert_track_view)
-        self.add_track_button.pack()
-
         self.destroy_button = tk.Button(self, text="Concluído", command=lambda: self.controller.main_controller.destroy_view(self))
         self.destroy_button.pack()
 
@@ -172,7 +170,8 @@ class AlbumController:
     
     def insert_track(self):
         track_title = self.__insert_track_view.entry_track_name.get()
-        if track_title == "":
+        album_title = self.__insert_track_view.entry_album_name.get()
+        if track_title == "" or album_title == "":
             messagebox.showerror("Erro", "Preencha todos os campos!")
             return
         for album in self.album_list:
@@ -182,7 +181,7 @@ class AlbumController:
                     self.__insert_track_view.entry_track_name.delete(0, len(self.__insert_track_view.entry_track_name.get()))
                     return
         
-        album = self.get_album_instance_by_name(self.__insert_album_view.entry_album_name.get())
+        album = self.get_album_instance_by_name(album_title)
         if album == None:
             messagebox.showerror("Erro", "Album não encontrado!")
             return
@@ -201,6 +200,10 @@ class AlbumController:
         if album_name == "" or album_artist == "" or album_year == "":
             messagebox.showerror("Erro", "Preencha todos os campos!")
             return
+        
+        if album_name in self.album_names:
+            messagebox.showerror("Erro", "Album já cadastrado!")
+            return
 
         artist_instance = self.main_controller.artist_controller.get_artist_instance_by_name(album_artist)
 
@@ -208,9 +211,7 @@ class AlbumController:
             self.main_controller.artist_controller.insert_artist(album_artist)
             artist_instance = self.main_controller.artist_controller.get_artist_instance_by_name(album_artist)
             
-        if album_name in self.album_names:
-            messagebox.showerror("Erro", "Album já cadastrado!")
-            return
+
         
         album = Album(album_name, artist_instance, album_year)
         artist_instance.add_album(album_name)

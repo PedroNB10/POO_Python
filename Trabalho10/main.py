@@ -31,6 +31,8 @@ class MainController:
     def list_artists(self):
         self.artist_controller.create_search_artist_view()
 
+    def insert_music(self):
+        self.album_controller.create_insert_track_view()
 
 
     def insert_album(self):
@@ -79,13 +81,14 @@ class MainView:
         
         self.artist_menu.add_command(label="Cadastrar", command=self.main_controller.insert_artist) # this line add a command to the submenu option
         self.artist_menu.add_command(label="Consultar", command=self.main_controller.list_artists) # this line add a command to the submenu option
-
+        
+        
         self.playlist_menu.add_command(label="Cadastrar", command=self.main_controller.insert_playlist) # this line add a command to the submenu option
         self.playlist_menu.add_command(label="Consultar", command=self.main_controller.list_playlists) # this line add a command to the submenu option
         
         self.album_menu.add_command(label="Cadastrar", command=self.main_controller.insert_album) # this line add a command to the submenu option
         self.album_menu.add_command(label="Consultar", command=self.main_controller.list_albuns)
-        
+        self.album_menu.add_command(label="Adicionar Música", command=self.main_controller.insert_music) # this line add a command to the submenu option
 
 
 

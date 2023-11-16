@@ -17,28 +17,18 @@ class Music:
     def artist(self):
         return self.__artist
     
-    @artist.setter
-    def artist(self, string):
-        self.__artist = string
-
-
-
+    @property
+    def album(self):
+        return self.__album
+    
     @property
     def title(self):
         return self.__title
-    
-    @title.setter
-    def title(self, string):
-        self.__title = string
 
     @property
     def track(self):
         return self.__track
     
-    @track.setter
-    def track(self, string):
-        self.__track = string
-
 class MusicController:
     def __init__(self, main_controller):
         self.main_controller = main_controller
