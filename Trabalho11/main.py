@@ -6,28 +6,34 @@ import pickle
 
 # exepctions
 
-class ConsoleInvalido(Exception):
-    pass
-
-class GeneroInvalido(Exception):
-    pass
-
-class PrecoInvalido(Exception):
-    pass
-
 
 class Jogo:
     def __init__(self, codigo, titulo, console, genero, preco):
-        self.__codigo = codigo
+        self.consoles = ['Xbox', 'Playstation', 'PC', 'Switch']
+        self.generos = ['Ação', 'Aventura', 'Esporte', 'Estratégia', 'RPG', 'Simulação']
+        
+        self.codigo = codigo
         self.__titulo = titulo
-        self.__console = console
-        self.__genero = genero
-        self.__preco = preco
+        self.console = console # chama o setter
+        self.genero = genero
+        self.preco = preco
         self.__avaliacoes = []
+        
+        
 
+    
     @property
     def codigo(self):
         return self.__codigo
+    
+    @codigo.setter
+    def codigo(self, codigo):
+        try:
+            codigo = int(codigo)
+            self.__codigo = codigo
+        except:
+            raise ValueError("Código deve ser um número inteiro")
+            
     
     @property
     def titulo(self):
@@ -37,13 +43,39 @@ class Jogo:
     def console(self):
         return self.__console
     
+    @console.setter
+    def console(self, console):
+
+        if console.capitalize() not in self.consoles:
+            raise ValueError(f"Console inválido: {console}")
+        else:
+            self.__console = console.capitalize()
+            
+    
     @property
     def genero(self):
         return self.__genero
     
+    @genero.setter
+    def genero(self, genero):
+        
+        if genero.capitalize() not in self.generos:
+            raise ValueError(f"Gênero inválido: {genero}")
+        else:
+
+            self.__genero = genero.capitalize()
+    
     @property
     def preco(self):
         return self.__preco
+    
+    @preco.setter
+    def preco(self, preco):
+        try:
+            preco = float(preco)
+            self.__preco = preco
+        except:
+            raise ValueError("Preço deve ser um número")
     
     @property
     def avaliacoes(self):
@@ -218,6 +250,9 @@ class MainView:
 
 
         self.root.config(menu=self.menu_bar)
+        
+    def mostrar_mensagem(self, titulo, mensagem):
+        messagebox.showinfo(titulo, mensagem)
 
 class mainController:
     def __init__(self):
@@ -367,59 +402,25 @@ class mainController:
             messagebox.showerror("Erro", "Preencha todos os campos")
             return
 
-        try:
-            codigo = int(codigo)
-            
-        except:
-            messagebox.showerror("Erro", f"Código {codigo} é  inválido")
-            return
-        
-        if self.jogo_existe(codigo):
-            messagebox.showerror("Erro", f"O código {codigo} já foi utilizado!!!")
-            return
-        
-        try:
-            preco = float(preco)
-        except:
-            messagebox.showerror("Erro", "Formato de Preço inválido")
-            return
 
-        # exceções das minhas classes
-        try: 
-            
-            console_format = console.lower()
-            genero_format = genero.lower()
-            if console_format != 'xbox' and console_format != 'playstation' and console_format != 'pc' and console_format != 'switch':
-                raise ConsoleInvalido
-            pass
-
-            if genero_format != 'ação' and genero_format != 'aventura' and genero_format != 'esporte' and genero_format != 'estratégia' and genero_format != 'rpg' and genero_format != 'simulação':
-                raise GeneroInvalido
-            
-            if preco < 0 or preco > 500:
-                raise PrecoInvalido
-            
-
-        except ConsoleInvalido:
-            messagebox.showerror("Erro", "Console inválido")
-            return
-        except GeneroInvalido:
-            messagebox.showerror("Erro", "Gênero inválido")
-            return
-        
-        except PrecoInvalido:
-            messagebox.showerror("Erro", "Preço inválido")
-            return
-
-   
         titulo = titulo.title()
         console = console.capitalize()
         genero = genero.capitalize()
 
-        jogo = Jogo(codigo, titulo, console, genero, preco)
-        self.lista_de_jogos.append(jogo)
-        messagebox.showinfo("Sucesso", "Jogo cadastrado com sucesso!")
+        try:
+        
+            jogo = Jogo(codigo, titulo, console, genero, preco)
+            if self.jogo_existe(jogo.codigo):
+                messagebox.showerror("Erro", "Jogo já cadastrado")
+                return
+            else:
+                self.lista_de_jogos.append(jogo)
+                messagebox.showinfo("Sucesso", "Jogo cadastrado com sucesso!")
 
+        except ValueError as error:
+            self.main_view.mostrar_mensagem("Erro", error)
+            return
+        
         self.main_view.entry_codigo.delete(0, tk.END)
         self.main_view.entry_titulo.delete(0, tk.END)
         self.main_view.entry_console.delete(0, tk.END)
