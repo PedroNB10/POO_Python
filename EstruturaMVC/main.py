@@ -104,7 +104,7 @@ class MainView:
         self.button_03.pack(pady=20)
         
         self.combo_01 = ttk.Combobox(self.root, width=20)
-        self.combo_01['values'] = ['1', '2', '3']
+        self.combo_01['values'] = ['1', 'A', '3']
         self.combo_01.pack()
         
         self.combo_01.bind("<<ComboboxSelected>>", self.controle_principal.combobox_selecionado_handler)
@@ -142,6 +142,12 @@ class ControlePincipal:
         print("Janela Secundária criada")
         
     def combobox_selecionado_handler(self, event):
+        print(self.main_view.combo_01['values'])
+        print(type(self.main_view.combo_01['values']))
+        # self.main_view.combo_01['values'] = ['4', '5', '6'] # altera os valores do combobox
+        element = 'A'
+        self.main_view.list_box_01.delete(self.main_view.combo_01['values'].index(element)) # delete the first item from the listbox
+            
         print(self.main_view.combo_01.get())
         
     def mostrar_combobox_e_listbox_selecionado(self):
